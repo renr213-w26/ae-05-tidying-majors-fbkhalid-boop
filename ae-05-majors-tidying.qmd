@@ -34,26 +34,36 @@ statsci
 ```{r}
 #| label: pivot
 
-# add your code here
+statsci |>
+  pivot_longer(
+    cols = -degree,
+    names_to = "year",
+    values_to = "n"
+  )
   
   
 ```
 
 -   **Question:** What is the type of the `year` variable? Why? What should it be?
 
-*Add your response here.*
+It is currently a character type. This is because it came from the column headers of the original table, and R treats column names as text by default. It should be numeric so we can plot it on a continuous x-axis.
 
 -   **Demo:** Start over with pivoting, and this time also make sure `year` is a numerical variable in the resulting data frame.
 
 ```{r}
 #| label: pivot-with-transform
-
-# add your code here
+statsci |>
+  pivot_longer(
+    cols = -degree,
+    names_to = "year",
+    names_transform = as.numeric,
+    values_to = "n"
+  )
 ```
 
 -   **Question:** What does an `NA` mean in this context? *Hint:* The data come from the university registrar, and they have records on every single graduates, there shouldn't be anything "unknown" to them about who graduated when.
 
-*Add your response here.*
+ NA means that zero students graduated with that degree in that year. AKA represents a count of 0, not missing info
 
 -   **Demo:** Add on to your pipeline that you started with pivoting and convert `NA`s in `n` to `0`s.
 
